@@ -1,2 +1,0 @@
-# 2023MavenWebAppPipelineWithAnsible1
-# 2023MavenWebAppPipelineWithAnsible

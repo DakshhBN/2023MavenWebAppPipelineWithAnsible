@@ -1,13 +1,11 @@
 pipeline {
-    agent any  // Use any available agent
-    
+    agent any
     environment {
-        LANG = 'en_US.UTF-8'
-        LC_ALL = 'en_US.UTF-8'
-    }   // this has to be added only if you get an error saying UTF required is 8 but showing in ISO00009
-
+    LANG = 'en_US.UTF-8'
+    LC_ALL = 'en_US.UTF-8'
+    }
     tools {
-        maven 'maven'  // Ensure this matches the name configured in Jenkins
+        maven 'Maven'
     }
     stages {
         stage('Checkout') {
@@ -18,27 +16,22 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean package'  // Run Maven build
+                sh 'mvn clean package'  
             }
+        }
+        stage('Archive'){
+        steps{
+        archiveArtifacts artifacts: 'target/*.war', fingerprint:true
+        }
         }
 
-     stage('Archive') {
-            steps {
-                archiveArtifacts artifacts: 'target/*.war', fingerprint:true
-            }
-        }
         stage('Deploy') {
             steps {
-               sh 'mvn clean package'  
-               sh 'ansible-playbook playbook.yml -i hosts.ini'
+                sh 'mvn clean package'  
+                sh '/usr/bin/ansible-playbook playbook.yml -i host.ini'
             }
         }
-
-                  
+     
+        
     }
-
-   }
-  shell: |
-    /opt/tomcat/bin/shutdown.sh || true
-    /opt/tomcat/bin/startup.sh
-
+}
