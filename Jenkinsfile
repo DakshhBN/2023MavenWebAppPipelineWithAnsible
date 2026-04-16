@@ -5,7 +5,7 @@ pipeline {
     LC_ALL = 'en_US.UTF-8'
     }
     tools {
-        maven 'Maven'
+        maven 'maven'
     }
     stages {
         stage('Checkout') {
